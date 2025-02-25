@@ -27,6 +27,7 @@
 .header-search i {
     font-size: 18px;
     cursor: pointer;
+    color: rgb(90, 90, 90);
 }
 
 .header-search input.hide {
@@ -87,15 +88,14 @@
     right: 0;
     width: 20px;
     height: 20px;
-    background-color: #FAACA8;
-    background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     font-size: 14px;
     font-weight: bold;
-    color: red;
+    color: white;
+    background-color: red;
     z-index: 1;
 }
 
@@ -103,9 +103,20 @@
     transform: scale(1.2);
 }
 
+.header-tools div:hover img  {
+    transform: scale(1.2);
+}
+
 .header-tools div i {
     font-size: 25px;
     transition: transform 0.3s ease;
+    color: rgb(4, 50, 52);
+}
+
+.header-tools div img {
+    width: 30px;
+    transition: transform 0.3s ease;
+    color: rgb(4, 50, 52);
 }
 
 .theme i.light {

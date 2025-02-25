@@ -1,15 +1,27 @@
 import { useRef, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Chart from 'chart.js/auto'
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import './Home.css'
 import { Day, Month, HMS } from '../../services/handleTime'
+import { getAccounts } from '../../services/accountService'
+import { getRooms } from '../../services/roomService'
+import { getClasses } from '../../services/classService'
+import { getStudents } from '../../services/studentService'
 
 function Home(){
-
     const canvasRef = useRef()
     const chartInstanceRef = useRef()
+    const navigate = useNavigate()
+    const [inforCard, setInforCard] = useState({
+        'accounts': '',
+        'rooms': '',
+        'classes': '',
+        'students': '',
+    })
+
     useEffect(() => {
         const ctx = canvasRef.current.getContext("2d");
 
@@ -71,7 +83,9 @@ function Home(){
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
     })
+
     const [location, setLocation] = useState({ lat: null, lng: null })
+
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -90,39 +104,46 @@ function Home(){
         }
     }, [])
 
-    
-    const timeRef = useRef()
-    const [time, setTime] = useState('')
     useEffect(() => {
-        const date = new Date()
-        const interval = setInterval(() => {
-            setTime(`
-                ${HMS(date.getHours())}:${HMS(date.getMinutes())}:${HMS(date.getSeconds())} 
-                | 
-                ${Day(date.getDay())}, ${date.getDate()} ${Month(date.getMonth())} ${date.getFullYear()}
-            `)
-        }, 1000)
+        setInforCard(prev => ({...prev, 'accounts': getAccounts().length}))
+        setInforCard(prev => ({...prev, 'rooms': getRooms().length}))
+        setInforCard(prev => ({...prev, 'classes': getClasses().length}))
+        setInforCard(prev => ({...prev, 'students': getStudents().length}))
+    }, [])
 
-        return () => clearInterval(interval)
-    }, [time])
+    
+    // const timeRef = useRef()
+    // const [time, setTime] = useState('')
+    // useEffect(() => {
+    //     const date = new Date()
+    //     const interval = setInterval(() => {
+    //         setTime(`
+    //             ${HMS(date.getHours())}:${HMS(date.getMinutes())}:${HMS(date.getSeconds())} 
+    //             | 
+    //             ${Day(date.getDay())}, ${date.getDate()} ${Month(date.getMonth())} ${date.getFullYear()}
+    //         `)
+    //     }, 1000)
+
+    //     return () => clearInterval(interval)
+    // }, [time])
     
 
     return (
         <div className="home">
             <div className="home__top">
                 <h1>Dashboard</h1>
-                <h1 ref={timeRef}>{time}</h1>
+                {/* <h1 ref={timeRef}>{time}</h1> */}
             </div>
             <div className="home__body">
                 <div className="card account">
                     <div className="card__content">
                         <div className="card__content__type account">
-                            <span>1200</span>
+                            <span>{inforCard.accounts}</span>
                             <span>Total Accounts</span>
                         </div>
                         <i class="bi bi-person-bounding-box"></i>
                     </div>
-                    <div className="card__more">
+                    <div className="card__more" onClick={() => navigate('/account')}>
                         <span>More info</span>  
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
@@ -131,11 +152,11 @@ function Home(){
                     <div className="card__content">
                         <div className="card__content__type faculty">
                             <span>16</span>
-                            <span>Total Faculty</span>
+                            <span>Total Room</span>
                         </div>
-                        <i class="bi bi-laptop"></i>
+                        <i class="bi-door-closed"></i>
                     </div>
-                    <div className="card__more">
+                    <div className="card__more" onClick={() => navigate('/room')}>
                         <span>More info</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
@@ -148,7 +169,7 @@ function Home(){
                         </div>
                         <i class="bi bi-pencil"></i>
                     </div>
-                    <div className="card__more">
+                    <div className="card__more" onClick={() => navigate('/class')}>
                         <span>More info</span>  
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
@@ -161,7 +182,7 @@ function Home(){
                         </div>
                         <i class="bi bi-people"></i>
                     </div>
-                    <div className="card__more">
+                    <div className="card__more" onClick={() => navigate('/student')}>
                         <span>More info</span>  
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>

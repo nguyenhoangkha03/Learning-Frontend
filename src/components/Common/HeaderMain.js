@@ -1,5 +1,9 @@
 import { useState, useRef } from 'react'
 import './HeaderMain.css'
+import bell from '../../assets/imgs/bell.png'
+import chat from '../../assets/imgs/chat.png'
+import kingdom from '../../assets/imgs/united-kingdom.png'
+import vietnam from '../../assets/imgs/vietnam.png'
 
 function HeaderMain(){  
 
@@ -64,14 +68,14 @@ function HeaderMain(){
             <section className="header-tools">
                 <div className="message">
                     <span>5</span>
-                    <i class="fa-solid fa-message"></i>
+                    <img src={chat} alt="" />
                 </div>
                 <div className="notification">
                     <span>4</span>
-                    <i class="fa-solid fa-bell"></i>
+                    <img src={bell} alt="" />
                 </div>
                 <div className="language">
-                    <i class="fa-solid fa-language"></i>
+                <img src={vietnam} alt="" />
                 </div>
                 <div 
                     className="theme"
