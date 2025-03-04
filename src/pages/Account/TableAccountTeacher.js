@@ -1,6 +1,6 @@
-import { memo, useCallback } from 'react'
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 
 function TableAccountTeacher({ accountTeachers, handleDelete, teachers }){
 
@@ -16,13 +16,13 @@ function TableAccountTeacher({ accountTeachers, handleDelete, teachers }){
         <table>
             <thead>
                 <tr>
-                    <th>MSSG</th> 
+                    <th>Mã Số Giảng Viên</th> 
                     <th>Tên Giảng Viên</th>
                     <th>Username</th>
                     <th>Vai Trò</th>
-                    <th>Create At</th>
+                    <th>Thời Gian Tạo</th>
                     <th>Trạng Thái</th>
-                    <th>Action</th>
+                    <th>Hành Động</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,9 +35,9 @@ function TableAccountTeacher({ accountTeachers, handleDelete, teachers }){
                         {name(account.id_giang_vien)}
                     </td>
                     <td>{account.username}</td>
-                    <td>{account.vai_tro}</td>
+                    <td>{account.vai_tro === 'teacher' ? 'Giảng viên' : ''}</td>
                     <td>{format(new Date(account.create_at), "dd/MM/yyyy HH:mm:ss")}</td>
-                    <td>{account.trang_thai}</td>
+                    <td>{account.trang_thai === 1 ? 'Hoạt động' : 'Không hoạt động'}</td>
                     <td>
                         <i class="fa-solid fa-trash"
                             onClick={() => handleDelete(account.id_tai_khoan)}

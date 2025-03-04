@@ -3,6 +3,7 @@ import { Link, useParams  } from 'react-router-dom'
 import { updateClass, getClassById } from '../../services/classService'
 import Toast from '../../components/Common/Toast'
 import DropMenuFalcuty from '../../components/Common/DropMenuFalcuty'
+import DropMenuMajor from '../../components/Common/DropMenuMajor'
 
 function ClassUpdate(){
     const { id } = useParams()    
@@ -19,6 +20,7 @@ function ClassUpdate(){
         khoa: '',
         so_luong_sv: '',
         nam: '',
+        id_nganh: '',
         id_khoa: ''
     })
 
@@ -30,6 +32,7 @@ function ClassUpdate(){
             khoa: data.khoa,
             so_luong_sv: data.so_luong_sv,
             nam: data.nam,
+            id_nganh: data.id_nganh,
             id_khoa: data.id_khoa
           })
           setClassName(data.ten_lop)
@@ -38,6 +41,7 @@ function ClassUpdate(){
     }, [])
 
     const handleChange = (e) => {
+        console.log(e.target.value);
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
@@ -76,8 +80,8 @@ function ClassUpdate(){
                             <input name="so_luong_sv" value={formData.so_luong_sv || ''} onChange={handleChange} type="number" />
                         </div>
                         <div>
-                            <h3>Khoa</h3>
-                            <DropMenuFalcuty valueUpdate={formData.id_khoa || ''} onChange={handleChange} />
+                            <h3>Ngành</h3>
+                            <DropMenuMajor valueUpdate={formData.id_nganh || ''} onChange={handleChange} />
                         </div>
                     </div>
                     <div className="view__add__right">
@@ -88,6 +92,10 @@ function ClassUpdate(){
                         <div>
                             <h3>Năm</h3>
                             <input name="nam" value={formData.nam || ''} onChange={handleChange} type="text" />
+                        </div>
+                        <div>
+                            <h3>Khoa</h3>
+                            <DropMenuFalcuty valueUpdate={formData.id_khoa || ''} onChange={handleChange} />
                         </div>
                     </div>  
                 </div>
@@ -101,6 +109,7 @@ function ClassUpdate(){
                             khoa: '',
                             so_luong_sv: '',
                             nam: '',
+                            id_nganh: '',
                             id_khoa: ''
                         });
                     }}>Reset</button>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getStudentStudySections, deleteStudentStudySection } from '../../services/studentStudySectionService'
+import { getMajors, deleteMajor } from '../../services/majorService'
+import { getFacultyById } from '../../services/facultyService'
 import Toast from '../../components/Common/Toast'
-import StudentCell from '../../components/Common/StudentGetName'
-import SectionCell from '../../components/Common/SectionGetCodeAndName'
+import FacultyCell from '../../components/Common/FacultyGetName'
 
-function SectionClass(){
-    const [studentStudySections, setStudentStudySections] = useState([])
+function Major(){
+    const [majors, setMajors] = useState([])
     const [result, setResult] = useState(null)
 
     // Phan trang
@@ -18,19 +18,19 @@ function SectionClass(){
 
     useEffect(() => {
         async function fetchData(){
-            const data = await getStudentStudySections()
-            setStudentStudySections(data)
+            const data = await getMajors()
+            setMajors(data)
         }
         fetchData()
     }, [])
 
     const handleDelete = (id) => {
         async function DeleteData(){
-            const result = await deleteStudentStudySection(id)
+            const result = await deleteMajor(id)
             if(result === true){
                 setResult(result)
-                setStudentStudySections(prev => 
-                    prev.filter(studentStudySection => studentStudySection.id_sv_hoc_hp !== id)
+                setMajors(prev => 
+                    prev.filter(major => major.id_nganh !== id)
                 )
             }
         }
@@ -40,9 +40,9 @@ function SectionClass(){
     return (
         <div className="view-data">
             <div className="view__title">
-                <h2>Quản Lý Sinh Viên Học Học Phần</h2>
-                <Link to="/studentStudySection/add">
-                    <button>Thêm Mới</button>
+                <h2>Quản Lý Ngành</h2>
+                <Link to="/major/add">
+                    <button>Add New</button>
                 </Link>
             </div>
             <div className="view__top">
@@ -65,35 +65,27 @@ function SectionClass(){
                 <table>
                     <thead>
                         <tr>
-                            <th>MSSV</th>
-                            <th>Sinh Viên</th>
-                            <th>MSHP</th>
-                            <th>Tên Học Phần</th>
-                            <th>Ngày Đăng Ký</th>
-                            <th>Thu Phí</th>
-                            <th>Điểm Giữa Kỳ</th>
-                            <th>Điểm Cuối Kỳ</th>
-                            <th>Điểm Tổng Kết</th>
+                            <th>Mã Số Ngành</th>
+                            <th>Tên Ngành</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Khoa</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {sectionClasses.map((sectionClass, index) => (
+                    {majors.map((major, index) => (
                         <tr key={index}>
-                            <td>{sectionClass.ms_lop_hoc_phan}</td>
-                            <td><SubjectCell Id={sectionClass.id_mon_hoc} /></td>
-                            <td><TeacherCell teacherId={sectionClass.id_giang_vien} /></td>
-                            <td><RoomCell Id={sectionClass.id_phong} /></td>
-                            <td><SemesterCell Id={sectionClass.id_hoc_ky} /></td>
-                            <td>{sectionClass.tong_so_tiet}</td>
-                            <td>{sectionClass.tong_so_tiet_th}</td>
-                            <td>{sectionClass.trang_thai}</td>
-                            <td>{sectionClass.hoc_phi}</td>
+                            <td>{major.msn}</td>
+                            <td>{major.ten_nganh}</td>
+                            <td>{major.tin_chi}</td>
+                            <td>
+                                <FacultyCell facultyId={major.id_khoa} />
+                            </td>
                             <td>
                                 <i class="fa-solid fa-trash"
-                                    onClick={() => handleDelete(sectionClass.id_lop_hoc_phan)}
+                                    onClick={() => handleDelete(major.id_nganh)}
                                 ></i>
-                                <Link to={`/sectionClass/update/${sectionClass.id_lop_hoc_phan}`}>
+                                <Link to={`/major/update/${major.id_nganh}`}>
                                     <i class="fa-solid fa-pen"></i>
                                 </Link>
                             </td>
@@ -104,7 +96,7 @@ function SectionClass(){
             </div>
             <div className="view__bottom">
                 <div className="view__bottom__total">
-                    Show <span>1</span> to <span>57</span> of <span>{sectionClasses.length}</span> entries
+                    Show <span>1</span> to <span>57</span> of <span>{majors.length}</span> entries
                 </div>
                 <div className="view__bottom__pagination">
                     <button disabled>Previous</button>
@@ -131,4 +123,4 @@ function SectionClass(){
     )
 }
 
-export default SectionClass
+export default Major

@@ -5,6 +5,7 @@ import Toast from '../../components/Common/Toast'
 import DropMenuTeacher from '../../components/Common/DropMenuTeacher'
 import DropMenuStudent from '../../components/Common/DropMenuStudent'
 import DropMenuManager from '../../components/Common/DropMenuManager'
+import ButtonBack from '../../components/Common/ButtonBack/ButtonBack'
 
 function AccountUpdate(){
     const { id } = useParams()    
@@ -80,9 +81,9 @@ function AccountUpdate(){
     return (
         <div className="view-data">
             <div className="view__title add">
-                <h2>Update Account - {username}</h2>
+                <h2 className='text-xl'>Cập Nhật Tài Khoản - {username}</h2>
                 <Link to="/account">
-                    <button>Back</button>
+                    <ButtonBack>Back</ButtonBack>
                 </Link>
             </div>
             <form ref={formRef} onSubmit={handleSubmit} action="/">
@@ -94,7 +95,7 @@ function AccountUpdate(){
                         </div>
                         <div>
                             <h3>Password</h3>
-                            <input name="password" value={formData.password} onChange={handleChange} type="text" />
+                            <input name="password" onChange={handleChange} type="text" />
                         </div>
                         <div>
                             <h3>Vai Trò</h3>
@@ -105,20 +106,20 @@ function AccountUpdate(){
                             {formData.trang_thai === 1
                             ?
                                 <select onChange={handleChange} name="trang_thai">
-                                    <option value="1" selected key="active">Active</option>
-                                    <option value="0" key="inactive">Inactive</option>
+                                    <option value="1" selected key="active">Hoạt động</option>
+                                    <option value="0" key="inactive">Không hoạt động</option>
                                 </select>
                             :
                                 <select onChange={handleChange} name="trang_thai">
-                                    <option value="1" key="active">Active</option>
-                                    <option value="0" selected key="inactive">Inactive</option>
+                                    <option value="1" key="active">Hoạt động</option>
+                                    <option value="0" selected key="inactive">Không hoạt động</option>
                                 </select>
                             }
                         </div>
                     </div>
                     <div className="view__add__right">
                         <div>
-                            <h3>Manager</h3>
+                            <h3>Quản Lý</h3>
                             <DropMenuManager valueUpdate={formData.id_manager || ''} ref={refManager} onChange={handleChange} />
                         </div>
                         <div>
@@ -134,7 +135,7 @@ function AccountUpdate(){
                 <div className="view__bottom__add">
                     <button
                         type="submit"
-                        >Update</button>
+                        >Lưu</button>
                     <button type="button" onClick={() => {
                         setFormData({
                             username: '',
@@ -145,7 +146,7 @@ function AccountUpdate(){
                             id_sinh_vien: '',
                             id_manager: ''
                         });
-                    }}>Reset</button>
+                    }}>Làm Mới</button>
                 </div>
             </form>
             {result === true ? <Toast 

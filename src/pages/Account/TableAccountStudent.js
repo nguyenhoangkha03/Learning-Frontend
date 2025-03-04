@@ -1,8 +1,6 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { format, parseISO } from 'date-fns'
-import StudentCellMSSV from '../../components/Common/StudentGetMSSV'
-import StudentCellName from '../../components/Common/StudentGetName'
+import { format } from 'date-fns'
 
 function TableAccountStudent({ accountStudents, handleDelete, students }){
 
@@ -18,13 +16,13 @@ function TableAccountStudent({ accountStudents, handleDelete, students }){
         <table>
             <thead>
                 <tr>
-                    <th>MSSV</th> 
+                    <th>Mã Số Sinh Viên</th> 
                     <th>Tên Sinh Viên</th>
                     <th>Username</th>
                     <th>Vai Trò</th>
-                    <th>Create At</th>
+                    <th>Thời Gian Tạo</th>
                     <th>Trạng Thái</th>
-                    <th>Action</th>
+                    <th>Hành Động</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,9 +31,9 @@ function TableAccountStudent({ accountStudents, handleDelete, students }){
                     <td>{mssv(account.id_sinh_vien)}</td>
                     <td>{name(account.id_sinh_vien)}</td>
                     <td>{account.username}</td>
-                    <td>{account.vai_tro}</td>
+                    <td>{account.vai_tro === 'student' ? 'Sinh viên' : ''}</td>
                     <td>{format(new Date(account.create_at), "dd/MM/yyyy HH:mm:ss")}</td>
-                    <td>{account.trang_thai}</td>
+                    <td>{account.trang_thai === 1 ? 'Hoạt động' : 'Không hoạt động'}</td>
                     <td>
                         <i class="fa-solid fa-trash"
                             onClick={() => handleDelete(account.id_tai_khoan)}

@@ -26,7 +26,7 @@ export default function DropMenuFalcuty({ valueUpdate, onChange }){
 
     return (
         <select name="id_khoa" onChange={handleSelectChange}>
-            <option disabled value="" key="">--Chọn Khoa--</option>
+            <option value="" key="">--Chọn Khoa--</option>
             {faculties.map(faculty => (
                 valueUpdate === faculty.id_khoa ?
                 <option selected value={faculty.id_khoa} key={faculty.id_khoa}>{faculty.ten_khoa}</option>

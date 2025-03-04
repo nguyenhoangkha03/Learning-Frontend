@@ -2,19 +2,19 @@
 export function Day(day){
     switch(day){
         case 0:
-            return 'Sunday'
+            return 'Chủ nhật'
         case 1:
-            return 'Monday'
+            return 'Thứ hai'
         case 2:
-            return 'Tuesday'
+            return 'Thứ ba'
         case 3:
-            return 'Wednesday'
+            return 'Thứ tư'
         case 4:
-            return 'Thursday'
+            return 'Thứ năm'
         case 5:
-            return 'Friday'
+            return 'Thứ sáu'
         case 6:
-            return 'Saturday'
+            return 'Thứ bảy'
         default:
             return 'Invalid day'
     }
@@ -23,29 +23,29 @@ export function Day(day){
 export function Month(month){
     switch(month){
         case 0:
-            return 'January'
+            return 'Tháng 1'
         case 1:
-            return 'February'
+            return 'Tháng 2'
         case 2:
-            return 'March'
+            return 'Tháng 3'
         case 3:
-            return 'April'
+            return 'Tháng 4'
         case 4:
-            return 'May'
+            return 'Tháng 5'
         case 5:
-            return 'June'
+            return 'Tháng 6'
         case 6:
-            return 'July'
+            return 'Tháng 7 '
         case 7:
-            return 'August'
+            return 'Tháng 8'
         case 8:
-            return 'September'
+            return 'Tháng 9'
         case 9:
-            return 'October'
+            return 'Tháng 10'
         case 10:
-            return 'November'
+            return 'Tháng 11'
         case 11:
-            return 'December'
+            return 'Tháng 12'
         default:
             return 'Invalid month'
     }

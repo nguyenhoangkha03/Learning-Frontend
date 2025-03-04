@@ -16,13 +16,13 @@ function TableAccountManager({ accountManagers, handleDelete, managers }){
         <table>
             <thead>
                 <tr>
-                    <th>MSM</th> 
-                    <th>Tên Manager</th>
+                    <th>Mã Số Quản Lý</th> 
+                    <th>Tên Quản Lý</th>
                     <th>Username</th>
                     <th>Vai Trò</th>
-                    <th>Create At</th>
+                    <th>Thời Gian Tạo</th>
                     <th>Trạng Thái</th>
-                    <th>Action</th>
+                    <th>Hành Động</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,9 +35,9 @@ function TableAccountManager({ accountManagers, handleDelete, managers }){
                         {name(account.id_manager)}
                     </td>
                     <td>{account.username}</td>
-                    <td>{account.vai_tro}</td>
+                    <td>{account.vai_tro === 'manager' ? 'Quản lý' : ''}</td>
                     <td>{format(new Date(account.create_at), "dd/MM/yyyy HH:mm:ss")}</td>
-                    <td>{account.trang_thai}</td>
+                    <td>{account.trang_thai === 1 ? 'Hoạt động' : 'Không hoạt động'}</td>
                     <td>
                         <i class="fa-solid fa-trash"
                             onClick={() => handleDelete(account.id_tai_khoan)}

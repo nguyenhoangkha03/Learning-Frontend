@@ -133,6 +133,18 @@ function Sidebar(){
                         <i className="fa-solid fa-bullseye"></i>
                     </div>         
                 </Link>    
+                <Link to="/major">
+                    <div 
+                        className={`menu-item ${menuActive === 'major' ? 'active' : ''}`}
+                        onClick={() => handleClickMenu('major')}
+                    >
+                        <span>
+                            <i className="fa-solid fa-graduation-cap"></i>
+                            <h2>Ngành</h2>
+                        </span>
+                        <i className="fa-solid fa-bullseye"></i>
+                    </div>         
+                </Link>    
                 <Link to="/class">
                     <div 
                         className={`menu-item ${menuActive === 'class' ? 'active' : ''}`}

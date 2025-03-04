@@ -25,7 +25,7 @@ export default function DropMenuManager({ valueUpdate, ref, onChange }){
 
     return (
         <select ref={ref} name="id_manager" onChange={handleSelectChange}>
-            <option value="" key="">--Chọn Manager--</option>
+            <option value="" key="">--Chọn Quản Lý--</option>
             {managers.map(manager => (
                 valueUpdate === manager.id_manager ?
                 <option selected value={manager.id_manager} key={manager.id_manager}>{manager.ho_ten}</option>

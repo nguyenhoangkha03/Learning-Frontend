@@ -5,6 +5,7 @@ import Toast from '../../components/Common/Toast'
 import DropMenuTeacher from '../../components/Common/DropMenuTeacher'
 import DropMenuStudent from '../../components/Common/DropMenuStudent'
 import DropMenuManager from '../../components/Common/DropMenuManager'
+import ButtonBack from '../../components/Common/ButtonBack/ButtonBack'
 function AccountAdd(){
     const formRef = useRef()
     const [result, setResult] = useState(null)
@@ -59,9 +60,9 @@ function AccountAdd(){
     return (
         <div className="view-data">
             <div className="view__title add">
-                <h2>Add New Account</h2>
+            <h2 className='text-xl'>Thêm Mới Tài Khoản</h2>
                 <Link to="/account">
-                    <button>Back</button>
+                    <ButtonBack>Trở Về</ButtonBack>
                 </Link>
             </div>
             <form ref={formRef} onSubmit={handleSubmit} action="/">
@@ -82,14 +83,14 @@ function AccountAdd(){
                         <div>
                             <h3>Trạng Thái</h3>
                             <select onChange={handleChange} name="trang_thai">
-                                <option value="1" key="active">Active</option>
-                                <option value="0" key="inactive">Inactive</option>
+                                <option value="1" key="active">Hoạt động</option>
+                                <option value="0" key="inactive">Không hoạt động</option>
                             </select>
                         </div>
                     </div>
                     <div className="view__add__right">
                         <div>
-                            <h3>Manager</h3>
+                            <h3>Quản Lý</h3>
                             <DropMenuManager ref={refManager} onChange={handleChange} />
                         </div>
                         <div>
@@ -105,10 +106,10 @@ function AccountAdd(){
                 <div className="view__bottom__add">
                     <button
                         type="submit"
-                        >Add</button>
+                        >Lưu</button>
                     <button type="button" onClick={() => {
                         formRef.current.reset()
-                    }}>Reset</button>
+                    }}>Tạo mới</button>
                 </div>
             </form>
             {result === true ? <Toast 

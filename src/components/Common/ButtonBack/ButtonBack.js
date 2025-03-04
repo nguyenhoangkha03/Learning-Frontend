@@ -1,9 +1,10 @@
-import styles from './ButtonOpenAdd.module.css'
+import styles from './ButtonBack.module.css'
 
-function ButtonOpenAdd({ children }){
+function ButtonBack({ children }){
 
     return (
         <button className={styles.button}>
+            <span>{children}</span>
             <svg
                 height="24"
                 width="24"
@@ -16,9 +17,8 @@ function ButtonOpenAdd({ children }){
                 fill="currentColor"
                 ></path>
             </svg>
-            <span>{ children }</span>
         </button>
     )
 }
 
-export default ButtonOpenAdd
+export default ButtonBack

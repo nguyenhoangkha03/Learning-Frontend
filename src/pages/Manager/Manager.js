@@ -8,17 +8,31 @@ function Manager(){
     const [managers, setManagers] = useState([])
     const [result, setResult] = useState(null)
 
+
     // Phan trang
-    const [total, setTotal] = useState(0)
-    const [current, setCurrent] = useState(1)
-    const [totalPage, setTotalPage] = useState(0)
-    const [limit, setLimit] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
+    const [currentItems, setCurrentItems] = useState([])
+    const [firstItemIndex, setFirstItemIndex] = useState(0)
+    const [lastItemIndex, setLastItemIndex] = useState(0)
+    const [totalPages, setTotalPages] = useState(0)
+    let indexOfLastItem = ''
+    let indexOfFirstItem = ''
+
+    useEffect(() => {
+        indexOfLastItem = currentPage * itemsPerPage
+        indexOfFirstItem = indexOfLastItem - itemsPerPage
+        setCurrentItems(managers.slice(indexOfFirstItem, indexOfLastItem))
+        setTotalPages(Math.ceil(managers.length / itemsPerPage))
+
+        setFirstItemIndex((currentPage - 1) * itemsPerPage + 1)
+        setLastItemIndex(Math.min(currentPage * itemsPerPage, managers.length))
+    }, [managers, currentPage])
 
 
     useEffect(() => {
         async function fetchData(){
             const data = await getManagers()
-            console.log(data); 
             setManagers(data)
         }
         fetchData()
@@ -37,6 +51,10 @@ function Manager(){
         DeleteData()
     }
 
+    if(managers.length === 0) {
+        return <p>Không có dữ li</p>
+    }
+
     return (
         <div className="view-data">
             <div className="view__title">
@@ -48,7 +66,10 @@ function Manager(){
             <div className="view__top">
                 <div className="view__top__entries">
                     Show
-                    <select>
+                    <select onChange={(e) => {
+                        setItemsPerPage(e.target.value)
+                        setCurrentPage(1)
+                    }}>
                         <option value="10" key="10">10</option>
                         <option value="25" key="25">25</option>
                         <option value="50" key="50">50</option>
@@ -77,7 +98,7 @@ function Manager(){
                         </tr>
                     </thead>
                     <tbody>
-                    {managers.map((manager, index) => (
+                    {currentItems.map((manager, index) => (
                         <tr key={index}>
                             <td>{manager.msm}</td>
                             <td>{manager.ho_ten}</td>
@@ -113,16 +134,26 @@ function Manager(){
             </div>
             <div className="view__bottom">
                 <div className="view__bottom__total">
-                    Show <span>1</span> to <span>57</span> of <span>{managers.length}</span> entries
+                    Hiển thị <span>{firstItemIndex}</span> đến <span>{lastItemIndex}</span> trong <span>{managers.length}</span> mục
                 </div>
                 <div className="view__bottom__pagination">
-                    <button disabled>Previous</button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>Next</button>
+                    <button 
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >Trước</button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                        <button
+                            key={number}
+                            onClick={() => setCurrentPage(number)}
+                            style={{ backgroundColor: currentPage === number ? 'lightblue' : 'white' }}
+                        >
+                            {number}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >Sau</button>
                 </div>
             </div>
             

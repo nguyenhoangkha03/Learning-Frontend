@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { getClasses, deleteClass } from '../../services/classService'
-import { getFacultyById } from '../../services/facultyService'
-import { format, parseISO } from 'date-fns'
 import Toast from '../../components/Common/Toast'
 import FacultyCell from '../../components/Common/FacultyGetName'
+import MajorCell from '../../components/Common/MajorGetName'
 
 function Classs(){
     const [classes, setClasses] = useState([])
@@ -66,10 +65,11 @@ function Classs(){
                 <table>
                     <thead>
                         <tr>
-                            <th>Tên</th>
+                            <th>Tên Lớp</th>
                             <th>Khóa</th>
                             <th>Số Lượng SV</th>
                             <th>Năm</th>
+                            <th>Ngành</th>
                             <th>Khoa</th>
                             <th>Action</th>
                         </tr>
@@ -81,6 +81,9 @@ function Classs(){
                             <td>{classs.khoa}</td>
                             <td>{classs.so_luong_sv}</td>
                             <td>{classs.nam}</td>
+                            <td>
+                                <MajorCell Id={classs.id_nganh} />
+                            </td>
                             <td>
                                 <FacultyCell facultyId={classs.id_khoa} />
                             </td>

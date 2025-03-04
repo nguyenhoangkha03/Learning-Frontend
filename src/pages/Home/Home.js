@@ -1,15 +1,14 @@
 import { useRef, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Chart from 'chart.js/auto'
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
 import './Home.css'
-import { Day, Month, HMS } from '../../services/handleTime'
 import { getAccounts } from '../../services/accountService'
 import { getRooms } from '../../services/roomService'
 import { getClasses } from '../../services/classService'
 import { getStudents } from '../../services/studentService'
+import ChartStudent from '../../components/Common/Chart/ChartStudent'
 
 function Home(){
     const canvasRef = useRef()
@@ -21,61 +20,6 @@ function Home(){
         'classes': '',
         'students': '',
     })
-
-    useEffect(() => {
-        const ctx = canvasRef.current.getContext("2d");
-
-        if(chartInstanceRef.current){
-            chartInstanceRef.current.destroy()
-        }
-
-        if (!ctx) return; 
-        chartInstanceRef.current = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: ["2020", "2021", "2022", "2023", "2024"],
-                datasets: [
-                    {
-                        label: "Sales",
-                        data: [5000, 7000, 10000, 15000, 12000],
-                        backgroundColor: "rgba(54, 162, 235, 0.2)",
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        borderWidth: 1,
-                        fill: true,
-                        tension: 0.4,
-                        pointBackgroundColor: "rgba(54, 162, 235, 1)",
-                        pointBorderColor: "#fff",
-                        pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: "rgba(54, 162, 235, 1)",
-                    },
-                ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 7500,
-                        },
-                    },
-                },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                },
-                maintainAspectRatio: false,
-            },
-        })
-
-        return () => {
-            if(chartInstanceRef.current){
-                chartInstanceRef.current.destroy()
-                chartInstanceRef.current = null
-            }
-        }
-    }, [])
-
 
     const customIcon = new L.Icon({
         iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
@@ -105,112 +49,97 @@ function Home(){
     }, [])
 
     useEffect(() => {
-        setInforCard(prev => ({...prev, 'accounts': getAccounts().length}))
-        setInforCard(prev => ({...prev, 'rooms': getRooms().length}))
-        setInforCard(prev => ({...prev, 'classes': getClasses().length}))
-        setInforCard(prev => ({...prev, 'students': getStudents().length}))
+        async function getAllData(){
+            const account = await getAccounts()
+            const room = await getRooms()
+            const classs = await getClasses()
+            const student = await getStudents()
+
+            setInforCard(prev => ({...prev, 'accounts': account.length}))
+            setInforCard(prev => ({...prev, 'rooms': room.length}))
+            setInforCard(prev => ({...prev, 'classes': classs.length}))
+            setInforCard(prev => ({...prev, 'students': student.length}))
+        }
+        getAllData()
     }, [])
 
-    
-    // const timeRef = useRef()
-    // const [time, setTime] = useState('')
-    // useEffect(() => {
-    //     const date = new Date()
-    //     const interval = setInterval(() => {
-    //         setTime(`
-    //             ${HMS(date.getHours())}:${HMS(date.getMinutes())}:${HMS(date.getSeconds())} 
-    //             | 
-    //             ${Day(date.getDay())}, ${date.getDate()} ${Month(date.getMonth())} ${date.getFullYear()}
-    //         `)
-    //     }, 1000)
 
-    //     return () => clearInterval(interval)
-    // }, [time])
-    
+
 
     return (
         <div className="home">
-            <div className="home__top">
-                <h1>Dashboard</h1>
-                {/* <h1 ref={timeRef}>{time}</h1> */}
-            </div>
-            <div className="home__body">
-                <div className="card account">
-                    <div className="card__content">
-                        <div className="card__content__type account">
-                            <span>{inforCard.accounts}</span>
-                            <span>Total Accounts</span>
-                        </div>
-                        <i class="bi bi-person-bounding-box"></i>
-                    </div>
-                    <div className="card__more" onClick={() => navigate('/account')}>
-                        <span>More info</span>  
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
+            <div class="flex gap-2 mt-2">
+                <div className='flex-1 overflow-hidden '>
+                    < ChartStudent />
                 </div>
-                <div className="card faculty">
-                    <div className="card__content">
-                        <div className="card__content__type faculty">
-                            <span>16</span>
-                            <span>Total Room</span>
+                <div className='flex-1'>
+                    <div class="grid grid-cols-2 gap-2 bg-gradient-to-t from-[#D9AFD9] to-[#97D9E1] rounded-md p-3 mb-2">
+                        <div className="card account">
+                            <div className="card__content">
+                                <div className="card__content__type account">
+                                    <span>{inforCard.accounts}</span>
+                                    <span>Tổng Tài Khoản</span>
+                                </div>
+                                <i class="bi bi-person-bounding-box"></i>
+                            </div>
+                            <div className="card__more" onClick={() => navigate('/account')}>
+                                <span>Xem chi tiết</span>  
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <i class="bi-door-closed"></i>
-                    </div>
-                    <div className="card__more" onClick={() => navigate('/room')}>
-                        <span>More info</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                </div>
-                <div className="card class">
-                    <div className="card__content">
-                        <div className="card__content__type class">
-                            <span>123</span>
-                            <span>Total Class</span>
+                        <div className="card faculty">
+                            <div className="card__content">
+                                <div className="card__content__type faculty">
+                                    <span>{inforCard.rooms}</span>
+                                    <span>Tổng Phòng</span>
+                                </div>
+                                <i class="bi-door-closed"></i>
+                            </div>
+                            <div className="card__more" onClick={() => navigate('/room')}>
+                                <span>Xem chi tiết</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <i class="bi bi-pencil"></i>
-                    </div>
-                    <div className="card__more" onClick={() => navigate('/class')}>
-                        <span>More info</span>  
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                </div>
-                <div className="card student">
-                    <div className="card__content">
-                        <div className="card__content__type student">
-                            <span>1243</span>
-                            <span>Total Student</span>
+                        <div className="card class">
+                            <div className="card__content">
+                                <div className="card__content__type class">
+                                    <span>{inforCard.classes}</span>
+                                    <span>Tổng Lớp</span>
+                                </div>
+                                <i class="bi bi-pencil"></i>
+                            </div>
+                            <div className="card__more" onClick={() => navigate('/class')}>
+                                <span>Xem chi tiết</span>  
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
                         </div>
-                        <i class="bi bi-people"></i>
+                        <div className="card student">
+                            <div className="card__content">
+                                <div className="card__content__type student">
+                                    <span>{inforCard.students}</span>
+                                    <span>Tổng Sinh Viên</span>
+                                </div>
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div className="card__more" onClick={() => navigate('/student')}>
+                                <span>Xem chi tiết</span>  
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card__more" onClick={() => navigate('/student')}>
-                        <span>More info</span>  
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                </div>
-            </div>
-            <div className="home__bottom">
-                <div className="home__bottom__chart">
-                    <h2>Students <i class="fa-solid fa-list"></i></h2>
-                    <div className="chart-container">
-                        <canvas 
-                            className="student-chart"
-                            ref={canvasRef}    
-                        ></canvas>
-                    </div>
-                </div>  
-                <div className="home__bottom__map">
-                    <h2>Map <i class="fa-solid fa-globe"></i></h2>
-                    <div className="map-container">
-                        {location.lat !== null && location.lng !== null ? (
-                            <MapContainer center={[location.lat, location.lng]} zoom={13} className="map-frame">
-                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                                <Marker position={[location.lat, location.lng]} icon={customIcon}>
-                                <Popup>📍 Your Location</Popup>
-                                </Marker>
-                            </MapContainer>
-                        ) : (
-                            <p>Location...</p>
-                        )}
+                    <div className='bg-gradient-to-t from-[#D9AFD9] to-[#97D9E1] rounded-md p-5"'>
+                        <div className="map-container p-2">
+                            {location.lat !== null && location.lng !== null ? (
+                                <MapContainer center={[location.lat, location.lng]} zoom={13} className="map-frame">
+                                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                    <Marker position={[location.lat, location.lng]} icon={customIcon}>
+                                    <Popup>📍 Your Location</Popup>
+                                    </Marker>
+                                </MapContainer>
+                            ) : (
+                                <p>Location...</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,11 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './HeaderMain.css'
 import bell from '../../assets/imgs/bell.png'
 import chat from '../../assets/imgs/chat.png'
 import kingdom from '../../assets/imgs/united-kingdom.png'
 import vietnam from '../../assets/imgs/vietnam.png'
+import { Day, Month, HMS } from '../../services/handleTime'
 
 function HeaderMain(){  
 
@@ -13,11 +15,12 @@ function HeaderMain(){
     const inputRef = useRef(null)
     const closeIconRef = useRef(null)
     const lightRef = useRef(null)
+    const navigate = useNavigate()
 
     const handleClick = () => {
         if(searchState === 'hide'){
             searchRef.current.classList.toggle('search-zoom-out')
-            inputRef.current.classList.toggle('hide')
+            inputRef.current.classList.toggle('hideInput')
             inputRef.current.focus()
             closeIconRef.current.classList.toggle('hide')
             setSearchState('show')
@@ -27,7 +30,7 @@ function HeaderMain(){
     const handleClickCloseSearch = () => {
         setSearchState('hide')
         searchRef.current.classList.toggle('search-zoom-out')
-        inputRef.current.classList.toggle('hide')
+        inputRef.current.classList.toggle('hideInput')
         closeIconRef.current.classList.toggle('hide')
     }
 
@@ -42,8 +45,33 @@ function HeaderMain(){
         }
     }
 
+    const timeRef = useRef()
+    const [time, setTime] = useState('')
+    useEffect(() => {
+        const date = new Date()
+        const interval = setInterval(() => {
+            setTime(`
+                ${HMS(date.getHours())}:${HMS(date.getMinutes())}:${HMS(date.getSeconds())} 
+                | 
+                ${Day(date.getDay())}, ${date.getDate()} - ${Month(date.getMonth())}, ${date.getFullYear()}
+            `)
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [time])
+
+    const handleKeyDown = (e) => {
+        if(e.key === 'Enter'){
+            const value = e.target.value
+            if(('tài khoản, account, username, password').includes(value.toLowerCase())){
+                navigate('/account')
+            }
+        }
+    }
+
     return (
         <div className="header">
+            <h1 ref={timeRef}>{time}</h1>
             <section className="section-header">
                 <div 
                     className="header-search search-zoom-out"
@@ -52,10 +80,11 @@ function HeaderMain(){
                 >
                     <i className="fa-solid fa-magnifying-glass search"></i>
                     <input 
-                        className="hide"
+                        className="hideInput"
                         type="text" 
-                        placeholder="Search..." 
+                        placeholder="Tìm kiếm..." 
                         ref={inputRef}   
+                        onKeyDown={handleKeyDown}
                     />
                     <i 
                         className="fa-solid fa-xmark close hide"
@@ -64,7 +93,6 @@ function HeaderMain(){
                     ></i>
                 </div>
             </section>
-            <h1>Learning Management</h1>
             <section className="header-tools">
                 <div className="message">
                     <span>5</span>

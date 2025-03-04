@@ -39,16 +39,15 @@ import SectionClassPage from '../../pages/SectionClass/SectionClass'
 import SectionClassAddPage from '../../pages/SectionClass/SectionClassAdd'
 import SectionClassUpdatePage from '../../pages/SectionClass/SectionClassUpdate'
 
-import StudentStudySectionPage from '../../pages/StudentStudySection/StudentStudySection'
-// import SectionClassAddPage from '../../pages/SectionClass/SectionClassAdd'
-// import SectionClassUpdatePage from '../../pages/SectionClass/SectionClassUpdate'
-
+import MajorPage from '../../pages/Major/Major'
+import MajorAddPage from '../../pages/Major/MajorAdd'
+import MajorUpdatePage from '../../pages/Major/MajorUpdate'
 
 import { Routes, Route } from 'react-router-dom'
 
 function ContentMain(){
     return (
-        <div className='main'>
+        <div className='main overflow-hidden'>
             <Routes>
                 <Route path='/' element={<HomePage />} />
 
@@ -92,9 +91,9 @@ function ContentMain(){
                 <Route path='/sectionClass/add' element={<SectionClassAddPage />} />
                 <Route path='/sectionClass/update/:id' element={<SectionClassUpdatePage />} /> 
 
-                <Route path='/studentStudySection' element={<StudentStudySectionPage />} />
-                {/* <Route path='/studentStudySection/add' element={<SectionClassAddPage />} />
-                <Route path='/studentStudySection/update/:id' element={<SectionClassUpdatePage />} />  */}
+                <Route path='/major' element={<MajorPage />} />
+                <Route path='/major/add' element={<MajorAddPage />} />
+                <Route path='/major/update/:id' element={<MajorUpdatePage />} /> 
             </Routes>
         </div>
     )

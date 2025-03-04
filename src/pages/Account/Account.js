@@ -20,11 +20,8 @@ function Account(){
     const [managers, setManagers] = useState([])
 
     // Phan trang
-    const [total, setTotal] = useState(0)
-    const [current, setCurrent] = useState(1)
-    const [totalPage, setTotalPage] = useState(0)
-    const [limit, setLimit] = useState(0)
-
+    
+    
     useEffect(() => {
         async function getDataTeachers(){
             const data = await getTeachers()
@@ -90,48 +87,48 @@ function Account(){
     return (
         <div className="view-data">
             <div className="view__title">
-                <h2>Accounts Management</h2>
+                <h2 className='text-xl'>Quản Lý Tài Khoản</h2>
                 <Link to="/account/add">
-                    <ButtonOpenAdd />
+                    <ButtonOpenAdd>Thêm Mới</ButtonOpenAdd>
                 </Link>
             </div>
             <div className="view__top">
                 <div className="view__top__entries">
-                    Show
+                    Hiển thị
                     <select>
                         <option value="10" key="10">10</option>
                         <option value="25" key="25">25</option>
                         <option value="50" key="50">50</option>
                         <option value="100" key="100">100</option>
                     </select>
-                    entries
+                    mục
                 </div>
                 <div className="view__top__type">
                     {type === 'manager'
                     ?
                         <select onChange={handleSelect}>
-                            <option value="manager" selected  key="manager">Manager</option>
-                            <option value="teacher"  key="teacher">Teacher</option>
-                            <option value="student"  key="student">Student</option>
+                            <option value="manager" selected  key="manager">Quản lý</option>
+                            <option value="teacher"  key="teacher">Giảng viên</option>
+                            <option value="student"  key="student">Sinh viên</option>
                         </select>
                     :
                         type === 'teacher'?
                             <select onChange={handleSelect}>
-                                <option value="manager"  key="manager">Manager</option>
-                                <option value="teacher" selected  key="teacher">Teacher</option>
-                                <option value="student"  key="student">Student</option>
+                                <option value="manager"  key="manager">Quản lý</option>
+                                <option value="teacher" selected  key="teacher">Giảng viên</option>
+                                <option value="student"  key="student">Sinh viên</option>
                             </select>
                         :
                             <select onChange={handleSelect}>
-                                <option value="manager"  key="manager">Manager</option>
-                                <option value="teacher"  key="teacher">Teacher</option>
-                                <option value="student" selected  key="student">Student</option>
+                                <option value="manager"  key="manager">Quản lý</option>
+                                <option value="teacher"  key="teacher">Giảng viên</option>
+                                <option value="student" selected  key="student">Sinh viên</option>
                             </select>
                     }
                 </div>
                 <div className="view__top__search">
-                    Search:
-                    <input type="text" />
+                    Tìm kiếm:
+                    <input type="text" placeholder='Tìm tài khoản...' />
                 </div>
             </div>
             <div className="view__body">
@@ -147,16 +144,16 @@ function Account(){
             </div>
             <div className="view__bottom">
                 <div className="view__bottom__total">
-                    Show <span>1</span> to <span>57</span> of <span>{accounts.length}</span> entries
+                    Hiển thị <span>1</span> đến <span>57</span> trong <span>{accounts.length}</span> mục
                 </div>
                 <div className="view__bottom__pagination">
-                    <button disabled>Previous</button>
+                    <button disabled>Trước</button>
                     <button>1</button>
                     <button>2</button>
                     <button>3</button>
                     <button>4</button>
                     <button>5</button>
-                    <button>Next</button>
+                    <button>Sau</button>
                 </div>
             </div>
             
